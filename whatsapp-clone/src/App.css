@@ -1,0 +1,15 @@
+.app {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #dadbd3;
+  background-image: url(https://fsa.zobj.net/crop.php?r=Nv3m3CA7y7ZOcKE0npozVcP-Eumxc0GvKfhjpGb2JTErykrrL5itLzh6IO7HdHYoDbrW9T1K5JjIXRRISxWLtjYWhoSRWt2E9VCzZYT5Tawh-PXooXuqVLliLF8dmlmfoP9JlwdtzAspwJEI32JGMVkgfz5BYOqH73WXsc9_8Nubip3SJFwboL2MC1U);
+}
+
+.app__body {
+  display: flex;
+  background-color: #ededed;
+  height: 90vh;
+  width: 90vw;
+  box-shadow: -1px 4px 20px -6px rgb(0, 0, 0, 0.75);
+}
