@@ -1,12 +1,12 @@
 const mongo = require('mongoose');
 
 const RoomSchema = new mongo.Schema({
-  room_name: {
+  title: {
     type: String,
     required: true,
   },
   creator: {
-    type: mongo.Schema.Types._ObjectId,
+    type: mongo.Schema.Types.ObjectId,
     ref: 'users',
   },
   date: {
@@ -26,6 +26,14 @@ const RoomSchema = new mongo.Schema({
       date: {
         type: Date,
         default: Date.now(),
+      },
+    },
+  ],
+  members: [
+    {
+      user: {
+        type: mongo.Schema.Types.ObjectId,
+        ref: 'users',
       },
     },
   ],
