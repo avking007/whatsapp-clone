@@ -26,8 +26,11 @@ router.post(
       let member = [];
       member.push({ user: req.user.id });
       newRoom.member = member;
+      let creator = await User.findById(req.user.id).select('-password');
       const room = new Room(newRoom);
       await room.save();
+      creator.participant.push({ room: room.id });
+      await creator.save();
       res.json({ newRoom });
     } catch (error) {
       console.log(error);
