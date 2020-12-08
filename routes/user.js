@@ -5,6 +5,7 @@ const hasher = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const config = require('../config/default');
+const auth = require('../middleware/auth');
 // route  api/signup
 // access public
 // desc  signup user
@@ -21,7 +22,7 @@ router.post(
     if (!err.isEmpty()) {
       return res.status(400).json({ messsage: err.array() });
     }
-    const { name, email, password } = req.body;
+    const { name, email, password, image } = req.body;
 
     // check existing user so error
     try {
@@ -32,6 +33,9 @@ router.post(
         const user = { name, email, password };
         const salt = await hasher.genSalt(10);
         user.password = await hasher.hash(password, salt);
+        if (image) {
+          user.image = image;
+        }
         const newUser = new User(user);
         await newUser.save();
         // jwt
@@ -52,6 +56,30 @@ router.post(
           }
         );
       }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// route api/add_img
+// access private
+// add dp
+router.put(
+  '/add_image',
+  [auth, [check('image', 'Image is required').not().isEmpty()]],
+  async (req, res) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      return res.status(400).json({ msg: error.array() });
+    }
+    try {
+      const { image } = req.body;
+      let user = await User.findById(req.user.id);
+      user.image = image;
+      await user.save();
+      res.send(user);
     } catch (error) {
       console.log(error);
       res.status(500).send('Server Error');

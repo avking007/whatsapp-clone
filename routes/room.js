@@ -4,6 +4,7 @@ const router = express.Router();
 const Room = require('../models/Room');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+
 // route room/group_cr
 // access private
 // desc group create
@@ -35,7 +36,34 @@ router.post(
   }
 );
 
-// add message in group
+// route room/:gid/add_img
+// access private
+//desc  add image of group
+router.put(
+  '/:gid/add_img',
+  [auth, [check('image', 'Image is Required').not().isEmpty()]],
+  async (req, res) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      return res.status(400).json({ msg: err.array() });
+    }
+    try {
+      const { image } = req.body;
+      const gid = req.params.id;
+      let room = await Room.findById(req.params.gid);
+      room.image = image;
+      await room.save();
+      res.send(room);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// route room/:gid/message
+// access private
+//desc  add message in group
 router.put('/:gid/message', [
   auth,
   [check('message', 'Message is required').not().isEmpty()],
@@ -63,6 +91,8 @@ router.put('/:gid/message', [
   },
 ]);
 
+// route room/:gid/add_member
+// access private
 // add participant in group
 router.put('/:gid/add_member', [
   auth,
