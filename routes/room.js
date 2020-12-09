@@ -58,8 +58,12 @@ router.put(
       await room.save();
       res.send(room);
     } catch (error) {
-      console.log(error);
-      res.status(500).send('Server Error');
+      if (error.kind == 'ObjectId') {
+        return res.status(400).send('No such group exists.');
+      } else {
+        console.log(error);
+        res.status(500).send('Server error');
+      }
     }
   }
 );
@@ -88,8 +92,12 @@ router.put('/:gid/message', [
       await group.save();
       res.json(group);
     } catch (error) {
-      console.log(error);
-      res.status(500).send('Server error');
+      if (error.kind == 'ObjectId') {
+        return res.status(400).send('No such group exists.');
+      } else {
+        console.log(error);
+        res.status(500).send('Server error');
+      }
     }
   },
 ]);
@@ -114,7 +122,7 @@ router.put('/:gid/add_member', [
       // get user email
       const { email } = req.body;
       //check valid user
-      let user = await User.findOne({ email }).select('_id');
+      let user = await User.findOne({ email }).select(['_id', 'participant']);
       if (!user) {
         return res.status(400).json({ msg: 'No such user exists.' });
       }
@@ -124,11 +132,17 @@ router.put('/:gid/add_member', [
       let group = await Room.findById(gid);
       //   push member
       group.members.push(newMember);
+      user.participant.push({ room: gid });
       await group.save();
+      await user.save();
       res.json(group);
     } catch (error) {
-      console.log(error);
-      res.status(500).send('Server error');
+      if (error.kind == 'ObjectId') {
+        return res.status(400).send('No such group or member exists.');
+      } else {
+        console.log(error);
+        res.status(500).send('Server error');
+      }
     }
   },
 ]);
