@@ -25,7 +25,7 @@ router.post(
       newRoom.user = req.user.id;
       let member = [];
       member.push({ user: req.user.id });
-      newRoom.member = member;
+      newRoom.members = member;
       let creator = await User.findById(req.user.id).select('-password');
       const room = new Room(newRoom);
       await room.save();
