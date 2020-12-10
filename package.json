@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "server" : "nodemon server",
-    "client" : "npm start --prefix whatsapp-clone",
-    "dev":"concurrently \"npm run server\" \"npm run client\""
+    "server": "nodemon server",
+    "client": "npm start --prefix whatsapp-clone",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Anish",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "express-validator": "^6.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.5",
+    "pusher": "^4.0.2",
     "request": "^2.88.2"
   },
   "devDependencies": {
