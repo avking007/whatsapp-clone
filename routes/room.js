@@ -52,6 +52,23 @@ router.post(
   }
 );
 
+// route room/:gid
+// access private
+//desc  add image of group
+router.get('/:gid', auth, async (req, res) => {
+  const gid = req.params.gid;
+  try {
+    let room = await Room.findById(gid);
+    let msg_model = await Message.findById(room.messageModel);
+    res.json({ room, msg_model });
+  } catch (error) {
+    if (error.kind == 'ObjectId') {
+      return res.status(404).send('Group not found');
+    }
+    return res.status(500).send('Server Error.');
+  }
+});
+
 // route room/:gid/add_img
 // access private
 //desc  add image of group
