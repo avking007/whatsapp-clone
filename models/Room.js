@@ -18,22 +18,10 @@ const RoomSchema = new mongo.Schema({
     type: Date,
     default: Date.now(),
   },
-  messages: [
-    {
-      user: {
-        type: mongo.Schema.Types.ObjectId,
-        ref: 'users',
-      },
-      message: {
-        type: String,
-        required: true,
-      },
-      date: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
-  ],
+  messageModel: {
+    type: mongo.Schema.Types.ObjectId,
+    ref: 'messages',
+  },
   members: [
     {
       user: {
