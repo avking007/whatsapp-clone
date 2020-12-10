@@ -4,6 +4,7 @@ const router = express.Router();
 const Room = require('../models/Room');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const Message = require('../models/Messages');
 
 // route room/group_cr
 // access private
@@ -18,6 +19,10 @@ router.post(
     }
     try {
       const { title, desc } = req.body;
+      // create message model
+      let messageModel = new Message();
+
+      // create room
       const newRoom = { title };
       if (desc) {
         newRoom.desc = desc;
@@ -26,12 +31,20 @@ router.post(
       let member = [];
       member.push({ user: req.user.id });
       newRoom.members = member;
-      let creator = await User.findById(req.user.id).select('-password');
+      newRoom.messageModel = messageModel.id;
       const room = new Room(newRoom);
+      messageModel.room = room.id;
       await room.save();
+
+      // save the new message model
+      await messageModel.save();
+
+      // add group to creator's participant
+      let creator = await User.findById(req.user.id).select('-password');
       creator.participant.push({ room: room.id });
       await creator.save();
-      res.json({ newRoom });
+
+      res.json({ messageModel, room });
     } catch (error) {
       console.log(error);
       res.status(500).send('Server error.');
@@ -53,7 +66,8 @@ router.put(
     try {
       const { image } = req.body;
       const gid = req.params.id;
-      let room = await Room.findById(req.params.gid);
+      // get the room and add img
+      let room = await Room.findById(gid);
       room.image = image;
       await room.save();
       res.send(room);
@@ -73,7 +87,10 @@ router.put(
 //desc  add message in group
 router.put('/:gid/message', [
   auth,
-  [check('message', 'Message is required').not().isEmpty()],
+  [
+    check('message', 'Message is required').not().isEmpty(),
+    check('name', 'Name is required').not().isEmpty(),
+  ],
   async (req, res) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
@@ -83,14 +100,18 @@ router.put('/:gid/message', [
       // get gid
       const gid = req.params.gid;
       // get user email
-      const { message } = req.body;
-      let newMessage = { message, user: req.user.id };
+      const { message, name } = req.body;
+      let newMessage = { message, user: name };
+
       //   get group by id
-      let group = await Room.findById(gid);
-      //   push member
-      group.messages.push(newMessage);
-      await group.save();
-      res.json(group);
+      let group = await Room.findById(gid).select('messageModel');
+
+      // get message model of that group and add message to it
+      let messageModel = await Message.findById(group.messageModel);
+      messageModel.msg_contents.push(newMessage);
+
+      await messageModel.save();
+      res.json({ messageModel, group });
     } catch (error) {
       if (error.kind == 'ObjectId') {
         return res.status(400).send('No such group exists.');
@@ -130,9 +151,12 @@ router.put('/:gid/add_member', [
       let newMember = { user };
       //   get group by id
       let group = await Room.findById(gid);
-      //   push member
+      //   push member to group
       group.members.push(newMember);
+
+      // push group to user participant
       user.participant.push({ room: gid });
+
       await group.save();
       await user.save();
       res.json(group);
