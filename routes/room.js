@@ -169,6 +169,9 @@ router.put('/:gid/add_member', [
       //   get group by id
       let group = await Room.findById(gid);
       //   push member to group
+      if (!group) {
+        return res.status(404).json('No such group found');
+      }
       group.members.push(newMember);
 
       // push group to user participant
