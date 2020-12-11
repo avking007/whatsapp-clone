@@ -54,7 +54,7 @@ router.post(
 
 // route room/:gid
 // access private
-//desc  add image of group
+//desc  get group by id
 router.get('/:gid', auth, async (req, res) => {
   const gid = req.params.gid;
   try {
