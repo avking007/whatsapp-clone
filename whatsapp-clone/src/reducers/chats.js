@@ -32,7 +32,7 @@ export default function chats(state = initState, action) {
       return {
         ...state,
         room: payload.room,
-        messages: payload.msg_contents,
+        messages: payload.msg_model.msg_contents,
         loading: false,
         msg_model: payload.msg_model,
       };
