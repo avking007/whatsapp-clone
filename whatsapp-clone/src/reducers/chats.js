@@ -1,4 +1,10 @@
-import { CLEAR_ROOM, ROOM_ERROR, ROOM_LOADED } from '../actions/types';
+import {
+  CLEAR_ROOM,
+  MESSAGE_FAIL,
+  MESSAGE_SUCCESS,
+  ROOM_ERROR,
+  ROOM_LOADED,
+} from '../actions/types';
 
 const initState = {
   room: null,
@@ -31,6 +37,17 @@ export default function chats(state = initState, action) {
         room: payload.room,
         loading: false,
         msg_model: payload.msg_model,
+      };
+    case MESSAGE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        msg_model: payload.messageModel,
+      };
+    case MESSAGE_FAIL:
+      return {
+        ...state,
+        error: payload,
       };
     default:
       return state;
