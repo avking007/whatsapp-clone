@@ -1,17 +1,21 @@
 import { Avatar } from '@material-ui/core';
 import React from 'react';
+import { connect } from 'react-redux';
 import './sidebarchat.css';
+import { open_room } from '../../actions/room';
 
-function SidebarChat() {
+function SidebarChat({ room, img, title, open_room }) {
+  const roomClickHandler = (roomId) => {
+    open_room(roomId);
+  };
   return (
-    <div className='sidebarChat'>
-      <Avatar />
+    <div className='sidebarChat' onClick={(e) => roomClickHandler(room)}>
+      <Avatar src={img} />
       <div className='sidebarChat__info'>
-        <h2>Room name</h2>
-        <p>Last message</p>
+        <h2>{title}</h2>
       </div>
     </div>
   );
 }
 
-export default SidebarChat;
+export default connect(null, { open_room })(SidebarChat);
