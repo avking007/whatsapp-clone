@@ -99,10 +99,10 @@ router.put(
   }
 );
 
-// route room/:gid/message
+// route room/:mid/message
 // access private
 //desc  add message in group
-router.put('/:gid/message', [
+router.put('/:mid/message', [
   auth,
   [
     check('message', 'Message is required').not().isEmpty(),
@@ -115,22 +115,17 @@ router.put('/:gid/message', [
     }
     try {
       // get gid
-      const gid = req.params.gid;
+      const mid = req.params.mid;
       // get user email
       const { message, name } = req.body;
       let newMessage = { message, user: name, uid: req.user.id };
 
-      //   get group by id
-      let group = await Room.findById(gid).select('messageModel');
-      if (!group) {
-        return res.status(404).send('No such group exists.');
-      }
       // get message model of that group and add message to it
-      let messageModel = await Message.findById(group.messageModel);
+      let messageModel = await Message.findById(mid);
       messageModel.msg_contents.push(newMessage);
 
       await messageModel.save();
-      res.json({ messageModel, group });
+      res.json({ messageModel });
     } catch (error) {
       if (error.kind == 'ObjectId') {
         return res.status(400).send('No such group exists.');
