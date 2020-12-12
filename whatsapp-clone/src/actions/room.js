@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { CLEAR_ROOM, ROOM_ERROR, ROOM_LOADED } from './types';
+import {
+  CLEAR_ROOM,
+  MESSAGE_FAIL,
+  MESSAGE_SUCCESS,
+  ROOM_ERROR,
+  ROOM_LOADED,
+} from './types';
 // open a group
 export const open_room = (room_id) => async (dispatch) => {
   try {
@@ -11,5 +17,22 @@ export const open_room = (room_id) => async (dispatch) => {
   }
 };
 // add message in group
+export const sendMessage = (message, Mess_model_Id) => async (dispatch) => {
+  try {
+    const body = JSON.stringify({
+      name: message.user,
+      message: message.message,
+    });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios.put(`/room/${Mess_model_Id}/message`, body, config);
+    dispatch({ type: MESSAGE_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: MESSAGE_FAIL });
+  }
+};
 
 // add member in group
