@@ -118,11 +118,13 @@ router.put('/:gid/message', [
       const gid = req.params.gid;
       // get user email
       const { message, name } = req.body;
-      let newMessage = { message, user: name };
+      let newMessage = { message, user: name, uid: req.user.id };
 
       //   get group by id
       let group = await Room.findById(gid).select('messageModel');
-
+      if (!group) {
+        return res.status(404).send('No such group exists.');
+      }
       // get message model of that group and add message to it
       let messageModel = await Message.findById(group.messageModel);
       messageModel.msg_contents.push(newMessage);
@@ -175,7 +177,11 @@ router.put('/:gid/add_member', [
       group.members.push(newMember);
 
       // push group to user participant
-      user.participant.push({ room: gid });
+      user.participant.push({
+        room: gid,
+        grp_img: group.image,
+        title: group.title,
+      });
 
       await group.save();
       await user.save();
