@@ -18,7 +18,7 @@ export default function user(state = initState, action) {
   switch (type) {
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
-      return { ...state, isAuth: true, loading: false };
+      return { ...state, ...payload, isAuth: true, loading: false };
     case USER_LOADED:
       return { ...state, user: payload, isAuth: true, loading: false };
     case LOGIN_FAIL:
