@@ -25,6 +25,12 @@ const UserSchema = new mongo.Schema({
         type: mongo.Schema.Types.ObjectId,
         ref: 'room',
       },
+      grp_img: {
+        type: String,
+      },
+      title: {
+        title: String,
+      },
     },
   ],
 });
