@@ -19,6 +19,10 @@ const messageSchema = mongo.Schema({
         type: Date,
         default: Date.now(),
       },
+      uid: {
+        type: mongo.Schema.Types.ObjectId,
+        ref: 'users',
+      },
     },
   ],
 });
