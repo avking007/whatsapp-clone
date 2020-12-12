@@ -32,6 +32,7 @@ export const sendMessage = (message, Mess_model_Id) => async (dispatch) => {
     dispatch({ type: MESSAGE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({ type: MESSAGE_FAIL });
+    alert(error);
   }
 };
 
