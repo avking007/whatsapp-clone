@@ -9,6 +9,9 @@ const RoomSchema = new mongo.Schema({
     type: mongo.Schema.Types.ObjectId,
     ref: 'users',
   },
+  desc: {
+    type: String,
+  },
   image: {
     type: String,
     default:
@@ -27,6 +30,12 @@ const RoomSchema = new mongo.Schema({
       user: {
         type: mongo.Schema.Types.ObjectId,
         ref: 'users',
+      },
+      image: {
+        type: String,
+      },
+      name: {
+        type: String,
       },
     },
   ],
