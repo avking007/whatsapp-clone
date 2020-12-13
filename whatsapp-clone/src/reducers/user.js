@@ -4,6 +4,8 @@ import {
   LOGIN_SUCCESS,
   USER_LOADED,
   LOGIN_FAIL,
+  ROOM_CREATED,
+  ROOM_CREATE_FAIL,
 } from '../actions/types';
 
 const initState = {
@@ -25,8 +27,17 @@ export default function user(state = initState, action) {
     case AUTH_ERROR:
     case LOGOUT:
       localStorage.removeItem('token');
-      return { ...state, user: null, isAuth: false, loading: true };
-
+      return {
+        ...state,
+        user: null,
+        isAuth: false,
+        loading: true,
+        token: null,
+      };
+    case ROOM_CREATED:
+      return { ...state, user: payload };
+    case ROOM_CREATE_FAIL:
+      return state;
     default:
       return state;
   }
