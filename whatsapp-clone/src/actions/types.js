@@ -11,3 +11,5 @@ export const CLEAR_ROOM = 'CLEAR_ROOM';
 export const ROOM_ERROR = 'ROOM_ERROR';
 export const MESSAGE_SUCCESS = 'MESSAGE_SUCCESS';
 export const MESSAGE_FAIL = 'MESSAGE_FAIL';
+export const ROOM_CREATED = 'ROOM_CREATED';
+export const ROOM_CREATE_FAIL = 'ROOM_CREATE_FAIL';
