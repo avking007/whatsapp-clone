@@ -1,0 +1,97 @@
+.room_setting {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #dadbd3;
+  background-image: url(https://fsa.zobj.net/crop.php?r=Nv3m3CA7y7ZOcKE0npozVcP-Eumxc0GvKfhjpGb2JTErykrrL5itLzh6IO7HdHYoDbrW9T1K5JjIXRRISxWLtjYWhoSRWt2E9VCzZYT5Tawh-PXooXuqVLliLF8dmlmfoP9JlwdtzAspwJEI32JGMVkgfz5BYOqH73WXsc9_8Nubip3SJFwboL2MC1U);
+}
+
+.room_setting__body {
+  display: flex;
+  flex-direction: column;
+  background-color: #ededed;
+  height: 90vh;
+  width: 90vw;
+  box-shadow: -1px 4px 20px -6px rgb(0, 0, 0, 0.75);
+}
+
+.room_setting__header {
+  display: flex;
+  height: 13vh;
+  padding: 30px;
+  border-bottom: 1px solid lightgray;
+}
+
+.room_setting__header > .MuiAvatar-root {
+  height: 80px;
+  width: 80px;
+}
+
+.room_setting__headerRight {
+  display: flex;
+  flex-direction: column;
+  min-width: 5vw;
+  margin-left: 20px;
+  flex: 1;
+}
+
+.room_setting__buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.room_setting__header > .MuiButton-root {
+  height: 10vh;
+  text-transform: inherit;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.room_setting__buttons > .MuiButton-root {
+  padding: 10px;
+  font-weight: 600;
+}
+
+.room__members {
+  height: 48vh;
+  box-shadow: -1px 1px 9px black;
+  border-radius: 40px;
+  margin: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  align-self: center;
+  overflow: auto;
+}
+
+.room__member {
+  display: flex;
+  margin: 20px;
+}
+
+.room__member > h3 {
+  margin-left: 30px;
+  margin-top: 6px;
+}
+
+.hidden_scroll {
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hidden_scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hidden_scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.room__membersHeader {
+  margin-bottom: 5px;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
