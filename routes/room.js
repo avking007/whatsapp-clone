@@ -20,6 +20,8 @@ router.post(
     try {
       const { title, desc } = req.body;
       // create message model
+      let creator = await User.findById(req.user.id).select('-password');
+
       let messageModel = new Message();
 
       // create room
@@ -27,9 +29,14 @@ router.post(
       if (desc) {
         newRoom.desc = desc;
       }
+
       newRoom.user = req.user.id;
       let member = [];
-      member.push({ user: req.user.id });
+      member.push({
+        user: req.user.id,
+        image: creator.image,
+        name: creator.name,
+      });
       newRoom.members = member;
       newRoom.messageModel = messageModel.id;
       const room = new Room(newRoom);
@@ -40,11 +47,13 @@ router.post(
       await messageModel.save();
 
       // add group to creator's participant
-      let creator = await User.findById(req.user.id).select('-password');
-      creator.participant.push({ room: room.id });
+      creator.participant.push({
+        room: room.id,
+        grp_img: room.image,
+        title,
+      });
       await creator.save();
-
-      res.json({ messageModel, room });
+      res.json(creator);
     } catch (error) {
       console.log(error);
       res.status(500).send('Server error.');
