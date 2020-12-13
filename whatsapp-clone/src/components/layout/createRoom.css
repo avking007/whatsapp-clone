@@ -1,0 +1,47 @@
+.create_room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 90vh;
+  width: 90vw;
+}
+.create__roomHeader {
+  margin-top: 10px;
+  align-content: center;
+  padding: 10px;
+  font-size: 20px;
+  border-bottom: 1px solid black;
+}
+
+.create__roomForm {
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  padding-top: 60px;
+  align-items: center;
+  height: 50vh;
+  width: 50vw;
+  place-items: center;
+  box-shadow: -3px 4px 8px rgba(0, 0, 0, 0.12), 0 -2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.create__roomForm > .MuiTextField-root {
+  margin-top: 20px;
+}
+
+.create__roomForm > .MuiButton-root {
+  margin-top: 10px;
+  width: 20vw;
+  background-color: #0a8d48;
+  color: white;
+}
+.create__roomForm > .MuiButton-root:hover {
+  background-color: #055229;
+}
+.create_room > .MuiButton-root {
+  background-color: #0a8d48;
+  color: white;
+}
+.create_room > .MuiButton-root:hover {
+  background-color: #055229;
+}
