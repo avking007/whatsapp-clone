@@ -29,7 +29,7 @@ const UserSchema = new mongo.Schema({
         type: String,
       },
       title: {
-        title: String,
+        type: String,
       },
     },
   ],
