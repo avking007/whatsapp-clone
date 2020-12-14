@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Chatbox.css';
 import { Avatar, Fade, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -24,6 +24,15 @@ function Chatbox({
   history,
   close_group,
 }) {
+  const scrollBottom = useRef();
+  const scrollToBottom = () => {
+    scrollBottom.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  useEffect(() => {
+    if (messages) {
+      scrollToBottom();
+    }
+  }, [messages]);
   const [mess, setmess] = useState({ user: '', message: '' });
   const [anchorEl, setanchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -96,12 +105,13 @@ function Chatbox({
           </Menu>
         </div>
       </div>
-      <div className='chatbox__body'>
+      <div className='chatbox__body hidden_scroll'>
         {messages &&
           messages.msg_contents &&
           messages.msg_contents.map((mess) => (
             <MessageItem key={mess._id} msg={mess} />
           ))}
+        <div ref={scrollBottom}></div>
       </div>
       <div className='chat__footer'>
         <IconButton>
