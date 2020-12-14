@@ -17,7 +17,7 @@
 
 .setting__header {
   display: flex;
-  height: 13vh;
+  height: 15vh;
   padding: 30px;
   border-bottom: 1px solid lightgray;
 }
@@ -25,6 +25,7 @@
 .setting__header > .MuiAvatar-root {
   height: 80px;
   width: 80px;
+  margin-top: 13px;
 }
 
 .setting__headerRight {
@@ -34,7 +35,9 @@
   margin-left: 20px;
   flex: 1;
 }
-
+.setting__headerRight > .MuiTextField-root {
+  margin-bottom: 14px;
+}
 .setting__buttons {
   display: flex;
   flex-direction: column;
@@ -45,6 +48,7 @@
   text-transform: inherit;
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
+  margin-left: 10px;
 }
 
 .setting__buttons > .MuiButton-root {

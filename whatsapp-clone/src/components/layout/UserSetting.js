@@ -1,10 +1,10 @@
 import React from 'react';
-import { Avatar, Button } from '@material-ui/core';
+import { Avatar, Button, TextField } from '@material-ui/core';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import './userSetting.css';
-function UserSetting({ history, logout, isAuth }) {
+function UserSetting({ history, logout, isAuth, user }) {
   const goBackHandler = () => {
     history.push('/');
   };
@@ -14,15 +14,31 @@ function UserSetting({ history, logout, isAuth }) {
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
+
+  const { name, email, image } = user;
   return (
     <div className='setting'>
       <div className='setting__body'>
         {/* header */}
         <div className='setting__header'>
-          <Avatar />
+          <Avatar src={image} />
           <div className='setting__headerRight'>
-            <h2>Anish</h2>
-            <h2>email</h2>
+            <TextField
+              value={name}
+              label='Name'
+              id='standard-read-only-input'
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              value={email}
+              label='Email'
+              id='standard-read-only-input'
+              InputProps={{
+                readOnly: true,
+              }}
+            />
           </div>
           <Button onClick={goBackHandler}>Go Back</Button>
         </div>
@@ -37,6 +53,7 @@ function UserSetting({ history, logout, isAuth }) {
 }
 const mapper = (state) => ({
   isAuth: state.user.isAuth,
+  user: state.user.user,
 });
 
 export default connect(mapper, { logout })(withRouter(UserSetting));
