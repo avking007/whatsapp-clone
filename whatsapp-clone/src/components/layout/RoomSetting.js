@@ -9,22 +9,6 @@ function RoomSetting({ room, isAuth, history }) {
     localStorage.clear();
     history.push('/');
   };
-  const loadDefaults = (room, isAuth) => {
-    let rom = JSON.parse(localStorage.getItem('room'));
-    let auth = JSON.parse(localStorage.getItem('isAuth'));
-    return { room: rom, isAuth: auth };
-  };
-  const StoreDefaults = (room, isAuth) => {
-    localStorage.setItem('room', JSON.stringify(room));
-    localStorage.setItem('isAuth', JSON.stringify(isAuth));
-  };
-  if (!room || !isAuth) {
-    const res = loadDefaults(room, isAuth);
-    room = res.room;
-    isAuth = res.isAuth;
-  } else {
-    StoreDefaults(room, isAuth);
-  }
 
   if (!isAuth) {
     return <Redirect to='/login' />;
