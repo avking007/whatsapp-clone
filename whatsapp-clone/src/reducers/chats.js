@@ -1,5 +1,7 @@
 import {
   CLEAR_ROOM,
+  MEMBER_ADDED,
+  MEMBER_ADD_FAIL,
   MESSAGE_FAIL,
   MESSAGE_SUCCESS,
   ROOM_ERROR,
@@ -49,6 +51,13 @@ export default function chats(state = initState, action) {
         ...state,
         error: payload,
       };
+
+    case MEMBER_ADDED:
+      let x = state.room;
+      x.members.push(payload);
+      return { ...state, room: x };
+
+    case MEMBER_ADD_FAIL:
     default:
       return state;
   }
