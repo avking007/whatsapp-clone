@@ -166,12 +166,12 @@ router.put('/:gid/add_member', [
       // get user email
       const { email } = req.body;
       //check valid user
-      let user = await User.findOne({ email }).select(['_id', 'participant']);
+      let user = await User.findOne({ email }).select(['-password']);
       if (!user) {
         return res.status(400).json({ msg: 'No such user exists.' });
       }
       //   if valid then add member
-      let newMember = { user };
+      let newMember = { user: user._id, name: user.name, image: user.image };
       //   get group by id
       let group = await Room.findById(gid);
       //   push member to group
@@ -189,7 +189,9 @@ router.put('/:gid/add_member', [
 
       await group.save();
       await user.save();
-      res.json(group);
+      res.json({
+        group: group.members[group.members.length - 1],
+      });
     } catch (error) {
       if (error.kind == 'ObjectId') {
         return res.status(400).send('No such group or member exists.');
