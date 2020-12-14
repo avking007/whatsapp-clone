@@ -7,6 +7,8 @@ import {
   ROOM_CREATE_FAIL,
   ROOM_ERROR,
   ROOM_LOADED,
+  MEMBER_ADDED,
+  MEMBER_ADD_FAIL,
 } from './types';
 // create group
 export const create_group = (group_details) => async (dispatch) => {
@@ -67,3 +69,19 @@ export const close_group = () => async (dispatch) => {
 };
 
 // add member in group
+export const add_member = (gid, email) => async (dispatch) => {
+  try {
+    const body = JSON.stringify({ email });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios.put(`/room/${gid}/add_member`, body, config);
+    dispatch({ type: MEMBER_ADDED, payload: res.data.group });
+    return res.data.group;
+  } catch (error) {
+    dispatch({ type: MEMBER_ADD_FAIL });
+    alert(error);
+  }
+};
