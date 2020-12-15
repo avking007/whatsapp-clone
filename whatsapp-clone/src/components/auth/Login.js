@@ -4,6 +4,7 @@ import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { google_succ, google_fail } from '../../actions/auth';
 import { Redirect } from 'react-router-dom';
+import Logo from '../../style_img/WhatsApp-Logo.png';
 
 function Login({ google_succ, google_fail, isAuth }) {
   const responseSuccessGoogle = async (success) => {
@@ -21,10 +22,7 @@ function Login({ google_succ, google_fail, isAuth }) {
   return (
     <div className='login'>
       <div className='login__container'>
-        <img
-          src='https://logos-world.net/wp-content/uploads/2020/05/WhatsApp-Logo.png'
-          alt=''
-        />
+        <img src={Logo} alt='' />
         <div className='login_text'>
           <h2>Login to whatsapp</h2>
         </div>
