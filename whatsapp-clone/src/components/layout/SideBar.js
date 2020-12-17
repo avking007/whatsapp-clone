@@ -12,7 +12,8 @@ import { logout } from '../../actions/auth';
 function SideBar({
   user: {
     isAuth,
-    user: { image, name, participant, _id },
+    user: { name, participant, _id },
+    image,
   },
   history,
   logout,
@@ -84,7 +85,7 @@ function SideBar({
           <SidebarChat
             key={group._id}
             room={group.room}
-            img={group.grp_img}
+            // img={group.grp_img}
             title={group.title}
           />
         ))}
