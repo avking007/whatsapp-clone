@@ -3,11 +3,14 @@ import setAuthToken from '../utils/setAuth';
 import {
   AUTH_ERROR,
   CLEAR_ROOM,
+  IMAGE_UPLOADED,
+  IMAGE_UPLOAD_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   USER_LOADED,
 } from './types';
+
 // load user &set token
 
 export const loadUser = () => async (dispatch) => {
@@ -23,9 +26,9 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // register user
-export const google_succ = (tokenId, img) => async (dispatch) => {
+export const google_succ = (tokenId) => async (dispatch) => {
   try {
-    const data = JSON.stringify({ tokenId, img });
+    const data = JSON.stringify({ tokenId });
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -47,4 +50,18 @@ export const google_fail = () => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   dispatch({ type: CLEAR_ROOM });
   dispatch({ type: LOGOUT });
+};
+
+// add image
+export const add_image = (uid, image_file) => async (dispatch) => {
+  try {
+    const file = image_file[0];
+    const formData = new FormData();
+    formData.append('user_image', file);
+
+    const res = await axios.put(`/user/${uid}/add_image`, formData);
+    dispatch({ type: IMAGE_UPLOADED, payload: res.data });
+  } catch (error) {
+    dispatch({ type: IMAGE_UPLOAD_FAIL });
+  }
 };
