@@ -5,6 +5,32 @@ const Room = require('../models/Room');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 const Message = require('../models/Messages');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/rooms');
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.params.gid + '.jpeg');
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg') {
+    // accept
+    cb(null, true);
+  } else {
+    // reject
+    cb(new Error('Can store only JPEG files.'), false);
+  }
+};
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+  fileFilter: fileFilter,
+});
 
 // route room/group_cr
 // access private
@@ -34,7 +60,6 @@ router.post(
       let member = [];
       member.push({
         user: req.user.id,
-        image: creator.image,
         name: creator.name,
       });
       newRoom.members = member;
@@ -49,11 +74,11 @@ router.post(
       // add group to creator's participant
       creator.participant.push({
         room: room.id,
-        grp_img: room.image,
         title,
       });
+
       await creator.save();
-      res.json(creator);
+      res.json({ creator, gid: room.id });
     } catch (error) {
       console.log(error);
       res.status(500).send('Server error.');
@@ -82,28 +107,18 @@ router.get('/:gid', auth, async (req, res) => {
 // access private
 //desc  add image of group
 router.put(
-  '/:gid/add_img',
-  [auth, [check('image', 'Image is Required').not().isEmpty()]],
+  '/:gid/add_image',
+  [auth, upload.single('room_image')],
   async (req, res) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
       return res.status(400).json({ msg: err.array() });
     }
     try {
-      const { image } = req.body;
-      const gid = req.params.id;
-      // get the room and add img
-      let room = await Room.findById(gid);
-      room.image = image;
-      await room.save();
-      res.send(room);
+      res.json(req.file);
     } catch (error) {
-      if (error.kind == 'ObjectId') {
-        return res.status(400).send('No such group exists.');
-      } else {
-        console.log(error);
-        res.status(500).send('Server error');
-      }
+      console.log(error);
+      res.status(500).send('Server Error');
     }
   }
 );
@@ -171,7 +186,7 @@ router.put('/:gid/add_member', [
         return res.status(400).json({ msg: 'No such user exists.' });
       }
       //   if valid then add member
-      let newMember = { user: user._id, name: user.name, image: user.image };
+      let newMember = { user: user._id, name: user.name };
       //   get group by id
       let group = await Room.findById(gid);
       //   push member to group
@@ -183,7 +198,6 @@ router.put('/:gid/add_member', [
       // push group to user participant
       user.participant.push({
         room: gid,
-        grp_img: group.image,
         title: group.title,
       });
 
