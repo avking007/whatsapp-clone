@@ -5,11 +5,6 @@ const UserSchema = new mongo.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-    default:
-      'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
-  },
   email: {
     type: String,
     required: true,
@@ -25,9 +20,7 @@ const UserSchema = new mongo.Schema({
         type: mongo.Schema.Types.ObjectId,
         ref: 'room',
       },
-      grp_img: {
-        type: String,
-      },
+
       title: {
         type: String,
       },
