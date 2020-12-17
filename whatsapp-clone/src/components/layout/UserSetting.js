@@ -34,7 +34,7 @@ function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
     setimage({ file: file });
   };
   const dpSubmitHandler = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (image.file) {
       add_image(user._id, image.file);
       // setdispImage('/' + user_image);
@@ -49,7 +49,7 @@ function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
       <div className='setting__body'>
         {/* header */}
         <div className='setting__header'>
-          <Avatar src={dispImage} />
+          <Avatar src={`${dispImage}?${Date.now()}`} />
           <div className='setting__headerRight'>
             <TextField
               value={name}

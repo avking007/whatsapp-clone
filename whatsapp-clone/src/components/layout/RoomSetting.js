@@ -42,7 +42,7 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
     setnewMem({ email: e.target.value });
   };
   const addMemberSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     await add_member(room._id, newMem.email);
     setnewMem({ email: '' });
     setmembers([...members]);
@@ -54,7 +54,6 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
   const ImageSubmitHandler = (e) => {
     e.preventDefault();
     if (groupDP.file) {
-      console.log(groupDP.file);
       group_image(room._id, groupDP.file);
     }
     setgroupDP({ file: null });
@@ -70,7 +69,8 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
       <div className='room_setting__body'>
         {/* header */}
         <div className='room_setting__header'>
-          <Avatar src={`/uploads/rooms/${room._id}.jpeg`} />
+          <Avatar src={`/uploads/rooms/${room._id}.jpeg?${Date.now()}`} />
+
           <div className='room_setting__headerRight'>
             <h2>{title}</h2>
             {desc && (
@@ -100,7 +100,7 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <form onSubmit={ImageSubmitHandler}>
+              <form onSubmit={ImageSubmitHandler} className='image_form'>
                 <TextField
                   required
                   name='file'

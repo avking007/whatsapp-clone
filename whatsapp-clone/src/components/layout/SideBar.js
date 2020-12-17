@@ -44,7 +44,7 @@ function SideBar({
   return (
     <div className='sidebar'>
       <div className='sidebar__header'>
-        <Avatar src={image} />
+        <Avatar src={`${image}?${Date.now()}`} />
         <div className='sidebar__headerRights'>
           <IconButton onClick={newChatHandler}>
             <ChatIcon />

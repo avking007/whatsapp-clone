@@ -102,8 +102,7 @@ export const group_image = (gid, file_image) => async (dispatch) => {
   try {
     const formData = new FormData();
     formData.append('room_image', file_image[0]);
-    const res = await axios.put(`/room/${gid}/add_image`, formData);
-    console.log(res);
+    await axios.put(`/room/${gid}/add_image`, formData);
     dispatch({ type: GROUP_DP_UPLOAD });
   } catch (error) {
     dispatch({ type: GROUP_DP_FAIL });

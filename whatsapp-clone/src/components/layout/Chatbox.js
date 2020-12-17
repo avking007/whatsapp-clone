@@ -68,7 +68,7 @@ function Chatbox({
   return loading ? null : (
     <div className='chatbox'>
       <div className='chatbox__header'>
-        <Avatar src={`/uploads/rooms/${room._id}.jpeg`} />
+        <Avatar src={`/uploads/rooms/${room._id}.jpeg?${Date.now()}`} />
         <div className='chatbox__headerinfo'>
           <h3>{room.title}</h3>
           <p>
