@@ -5,19 +5,26 @@ import './createRoom.css';
 import { create_group } from '../../actions/room';
 import { connect } from 'react-redux';
 
-function CreateRoom({ history, create_group }) {
+function CreateRoom({ isAuth, history, create_group }) {
   const goBackHandler = () => {
     history.push('/');
   };
-  const [group, setgroup] = useState({ title: '', desc: '', img: '' });
+  const [group, setgroup] = useState({ title: '', desc: '' });
+  const [groupDP, setgroupDP] = useState({ file: null });
   const submitHandler = (e) => {
     e.preventDefault();
-    create_group(group);
+    create_group({ group_details: group, group_DP: groupDP.file });
     history.push('/');
   };
   const changeHandler = (e) => {
     setgroup({ ...group, [e.target.name]: e.target.value });
   };
+  const DPchangeHandler = (file) => {
+    setgroupDP({ file: file });
+  };
+  if (!isAuth) {
+    history.push('/login');
+  }
   return (
     <div className='app'>
       <div className='app__body'>
@@ -55,8 +62,6 @@ function CreateRoom({ history, create_group }) {
               }}
             />
             <TextField
-              name='img'
-              value={group.img}
               variant='outlined'
               id='standard-full-width'
               label='Add image'
@@ -65,10 +70,10 @@ function CreateRoom({ history, create_group }) {
               }}
               type='file'
               onChange={(e) => {
-                changeHandler(e);
+                DPchangeHandler(e.target.files);
               }}
             />
-            <Button type='file'>Create Group</Button>
+            <Button type='submit'>Create Group</Button>
           </form>
           <Button onClick={goBackHandler}>Go Back</Button>
         </div>
@@ -76,5 +81,7 @@ function CreateRoom({ history, create_group }) {
     </div>
   );
 }
-
-export default connect(null, { create_group })(withRouter(CreateRoom));
+export const mapper = (state) => ({
+  isAuth: state.user.isAuth,
+});
+export default connect(mapper, { create_group })(withRouter(CreateRoom));
