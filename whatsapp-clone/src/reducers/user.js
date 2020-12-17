@@ -6,6 +6,8 @@ import {
   LOGIN_FAIL,
   ROOM_CREATED,
   ROOM_CREATE_FAIL,
+  IMAGE_UPLOAD_FAIL,
+  IMAGE_UPLOADED,
 } from '../actions/types';
 
 const initState = {
@@ -13,6 +15,7 @@ const initState = {
   isAuth: false,
   token: localStorage.getItem('token'),
   loading: true,
+  image: '',
 };
 
 export default function user(state = initState, action) {
@@ -22,7 +25,13 @@ export default function user(state = initState, action) {
       localStorage.setItem('token', payload.token);
       return { ...state, ...payload, isAuth: true, loading: false };
     case USER_LOADED:
-      return { ...state, user: payload, isAuth: true, loading: false };
+      return {
+        ...state,
+        user: payload,
+        isAuth: true,
+        loading: false,
+        image: `uploads/users/${payload._id}.jpeg`,
+      };
     case LOGIN_FAIL:
     case AUTH_ERROR:
     case LOGOUT:
@@ -33,9 +42,15 @@ export default function user(state = initState, action) {
         isAuth: false,
         loading: true,
         token: null,
+        image: '',
       };
     case ROOM_CREATED:
       return { ...state, user: payload };
+
+    case IMAGE_UPLOADED:
+      return { ...state, image: payload.path };
+
+    case IMAGE_UPLOAD_FAIL:
     case ROOM_CREATE_FAIL:
       return state;
     default:
