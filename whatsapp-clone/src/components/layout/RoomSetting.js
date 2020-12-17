@@ -11,9 +11,9 @@ import React, { useState, useEffect } from 'react';
 import './roomSetting.css';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { add_member } from '../../actions/room';
+import { add_member, group_image } from '../../actions/room';
 
-function RoomSetting({ room, isAuth, history, add_member }) {
+function RoomSetting({ room, isAuth, history, add_member, group_image }) {
   const goBackHandler = () => {
     localStorage.clear();
     history.push('/');
@@ -30,7 +30,11 @@ function RoomSetting({ room, isAuth, history, add_member }) {
 
   const [newMem, setnewMem] = useState({ email: '' });
   const [showMem, setshowMem] = useState(false);
-
+  const [dpMenu, setdpMenu] = useState(false);
+  const [groupDP, setgroupDP] = useState({ file: null });
+  const toggleDPMenu = () => {
+    setdpMenu(!dpMenu);
+  };
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
@@ -38,7 +42,7 @@ function RoomSetting({ room, isAuth, history, add_member }) {
     setnewMem({ email: e.target.value });
   };
   const addMemberSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     await add_member(room._id, newMem.email);
     setnewMem({ email: '' });
     setmembers([...members]);
@@ -47,14 +51,26 @@ function RoomSetting({ room, isAuth, history, add_member }) {
   const toggleMemberBox = () => {
     setshowMem(!showMem);
   };
-  const { image, title, desc } = room;
+  const ImageSubmitHandler = (e) => {
+    e.preventDefault();
+    if (groupDP.file) {
+      console.log(groupDP.file);
+      group_image(room._id, groupDP.file);
+    }
+    setgroupDP({ file: null });
+    toggleDPMenu();
+  };
+  const addImageHandler = (file) => {
+    setgroupDP({ file: file });
+  };
+  const { title, desc } = room;
 
   return (
     <div className='room_setting'>
       <div className='room_setting__body'>
         {/* header */}
         <div className='room_setting__header'>
-          <Avatar src={image} />
+          <Avatar src={`/uploads/rooms/${room._id}.jpeg`} />
           <div className='room_setting__headerRight'>
             <h2>{title}</h2>
             {desc && (
@@ -72,7 +88,37 @@ function RoomSetting({ room, isAuth, history, add_member }) {
         </div>
         {/* settings */}
         <div className='room_setting__buttons'>
-          <Button>Change DP</Button>
+          <Button onClick={toggleDPMenu}>Change DP</Button>
+          <Dialog
+            open={dpMenu}
+            onClose={toggleDPMenu}
+            aria-labelledby='responsive-dialog-title'
+          >
+            <DialogContent>
+              <DialogContentText>
+                <strong>Add Group Image</strong>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <form onSubmit={ImageSubmitHandler}>
+                <TextField
+                  required
+                  name='file'
+                  variant='outlined'
+                  id='standard-full-width'
+                  label='Add image'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  type='file'
+                  onChange={(e) => {
+                    addImageHandler(e.target.files);
+                  }}
+                />
+                <Button type='submit'>Upload</Button>
+              </form>
+            </DialogActions>
+          </Dialog>
           <Button onClick={toggleMemberBox}>Add Member </Button>
           <Dialog
             open={showMem}
@@ -110,7 +156,7 @@ function RoomSetting({ room, isAuth, history, add_member }) {
           <div className='room__memberBody hidden_scroll'>
             {members.map((member) => (
               <div key={member._id} className='room__member'>
-                <Avatar src={member.image} />
+                <Avatar src={`/uploads/users/${member.user}.jpeg`} />
                 <h3>{member.name}</h3>
               </div>
             ))}
@@ -125,4 +171,6 @@ const mapper = (state) => ({
   isAuth: state.user.isAuth,
 });
 
-export default connect(mapper, { add_member })(withRouter(RoomSetting));
+export default connect(mapper, { add_member, group_image })(
+  withRouter(RoomSetting)
+);
