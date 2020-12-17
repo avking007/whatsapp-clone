@@ -27,14 +27,13 @@ export const create_group = ({ group_details, group_DP }) => async (
       },
     };
     const res = await axios.post('/room/group_cr', body, config);
-    dispatch({ type: ROOM_CREATED, payload: res.data.creator });
     if (group_DP) {
       console.log(group_DP);
       const formData = new FormData();
       formData.append('room_image', group_DP[0]);
-      const img = await axios.put(`/room/${res.data.gid}/add_image`, formData);
-      console.log(img);
+      await axios.put(`/room/${res.data.gid}/add_image`, formData);
     }
+    dispatch({ type: ROOM_CREATED, payload: res.data.creator });
   } catch (error) {
     alert(error);
     dispatch({ type: ROOM_CREATE_FAIL });
