@@ -9,13 +9,17 @@ import {
   ROOM_LOADED,
   MEMBER_ADDED,
   MEMBER_ADD_FAIL,
+  GROUP_DP_UPLOAD,
+  GROUP_DP_FAIL,
 } from './types';
 // create group
-export const create_group = (group_details) => async (dispatch) => {
+export const create_group = ({ group_details, group_DP }) => async (
+  dispatch
+) => {
   try {
     let temp = { title: group_details.title };
     if (group_details.desc) temp.desc = group_details.desc;
-    if (group_details.img) temp.img = group_details.img;
+
     const body = JSON.stringify(temp);
     const config = {
       headers: {
@@ -23,7 +27,14 @@ export const create_group = (group_details) => async (dispatch) => {
       },
     };
     const res = await axios.post('/room/group_cr', body, config);
-    dispatch({ type: ROOM_CREATED, payload: res.data });
+    dispatch({ type: ROOM_CREATED, payload: res.data.creator });
+    if (group_DP) {
+      console.log(group_DP);
+      const formData = new FormData();
+      formData.append('room_image', group_DP[0]);
+      const img = await axios.put(`/room/${res.data.gid}/add_image`, formData);
+      console.log(img);
+    }
   } catch (error) {
     alert(error);
     dispatch({ type: ROOM_CREATE_FAIL });
@@ -83,5 +94,18 @@ export const add_member = (gid, email) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: MEMBER_ADD_FAIL });
     alert(error);
+  }
+};
+
+// add group image
+export const group_image = (gid, file_image) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    formData.append('room_image', file_image[0]);
+    const res = await axios.put(`/room/${gid}/add_image`, formData);
+    console.log(res);
+    dispatch({ type: GROUP_DP_UPLOAD });
+  } catch (error) {
+    dispatch({ type: GROUP_DP_FAIL });
   }
 };
