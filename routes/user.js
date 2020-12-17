@@ -1,5 +1,5 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const router = express.Router();
 const hasher = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -7,6 +7,31 @@ const User = require('../models/User');
 const config = require('../config/default');
 const auth = require('../middleware/auth');
 const { OAuth2Client } = require('google-auth-library');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/users');
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.params.uid + '.jpeg');
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg') {
+    cb(null, true);
+  } else {
+    cb('Enter JPEG file only!', false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+});
 
 const client = new OAuth2Client(
   '699625891152-llvk17ddp5otqeqc1076gcid8ipidtsr.apps.googleusercontent.com'
@@ -28,7 +53,7 @@ router.get('/auth', auth, async (req, res) => {
 // access public
 // desc google login/signup
 router.post('/googlelogin', async (req, res) => {
-  const { tokenId, img } = req.body;
+  const { tokenId } = req.body;
   try {
     const match = await client.verifyIdToken({
       idToken: tokenId,
@@ -40,7 +65,7 @@ router.post('/googlelogin', async (req, res) => {
       let user = await User.findOne({ email }).select('-password');
       if (!user) {
         // create user and send token
-        let newMem = { email, name, image: img };
+        let newMem = { email, name };
         const password = '`cFt`7//E' + email + 'Z^eeXq=h#';
         const salt = await hasher.genSalt(10);
         newMem.password = await hasher.hash(password, salt);
@@ -67,7 +92,6 @@ router.post('/googlelogin', async (req, res) => {
                 _id: newUser.id,
                 name,
                 email,
-                image: img,
                 participant: newUser.participant,
               },
             });
@@ -103,19 +127,15 @@ router.post('/googlelogin', async (req, res) => {
 // access private
 // add dp
 router.put(
-  '/add_image',
-  [auth, [check('image', 'Image is required').not().isEmpty()]],
+  '/:uid/add_image',
+  [auth, upload.single('user_image')],
   async (req, res) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
       return res.status(400).json({ msg: error.array() });
     }
     try {
-      const { image } = req.body;
-      let user = await User.findById(req.user.id);
-      user.image = image;
-      await user.save();
-      res.send(user);
+      res.json(req.file);
     } catch (error) {
       console.log(error);
       res.status(500).send('Server Error');
