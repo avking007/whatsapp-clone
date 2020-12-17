@@ -1,5 +1,7 @@
 import {
   CLEAR_ROOM,
+  GROUP_DP_FAIL,
+  GROUP_DP_UPLOAD,
   MEMBER_ADDED,
   MEMBER_ADD_FAIL,
   MESSAGE_FAIL,
@@ -57,6 +59,8 @@ export default function chats(state = initState, action) {
       x.members.push(payload);
       return { ...state, room: x };
 
+    case GROUP_DP_FAIL:
+    case GROUP_DP_UPLOAD:
     case MEMBER_ADD_FAIL:
     default:
       return state;
