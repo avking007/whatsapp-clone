@@ -28,7 +28,6 @@ export const create_group = ({ group_details, group_DP }) => async (
     };
     const res = await axios.post('/room/group_cr', body, config);
     if (group_DP) {
-      console.log(group_DP);
       const formData = new FormData();
       formData.append('room_image', group_DP[0]);
       await axios.put(`/room/${res.data.gid}/add_image`, formData);
