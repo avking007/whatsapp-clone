@@ -55,3 +55,20 @@
   padding: 10px;
   font-weight: 600;
 }
+.image_form {
+  display: flex;
+  flex-direction: column;
+  /* padding: 30px; */
+}
+.image_form > .MuiButton-root {
+  margin: 15px;
+  background-color: #0a8d48;
+  color: white;
+}
+.image_form > .MuiButton-root:hover {
+  background-color: #055229;
+}
+.image_form > .MuiTextField-root {
+  width: 50vw;
+  margin: 15px 15px 0 15px;
+}
