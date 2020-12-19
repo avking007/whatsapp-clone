@@ -6,8 +6,10 @@ import {
   MEMBER_ADD_FAIL,
   MESSAGE_FAIL,
   MESSAGE_SUCCESS,
+  NEW_MESSAGE,
   ROOM_ERROR,
   ROOM_LOADED,
+  NEW_MESSAGE_FAIL,
 } from '../actions/types';
 
 const initState = {
@@ -15,6 +17,7 @@ const initState = {
   loading: true,
   error: [],
   msg_model: null,
+  messages: [],
 };
 export default function chats(state = initState, action) {
   const { type, payload } = action;
@@ -26,6 +29,7 @@ export default function chats(state = initState, action) {
         room: null,
         msg_model: null,
         error: [],
+        messages: [],
       };
 
     case ROOM_ERROR:
@@ -33,7 +37,6 @@ export default function chats(state = initState, action) {
         ...state,
         loading: true,
         error: payload,
-        msg_model: null,
       };
     case ROOM_LOADED:
       return {
@@ -41,12 +44,16 @@ export default function chats(state = initState, action) {
         room: payload.room,
         loading: false,
         msg_model: payload.msg_model,
+        messages: payload.msg_model.msg_contents,
       };
+
+    case NEW_MESSAGE:
     case MESSAGE_SUCCESS:
+      let x = [...state.messages, payload];
+      console.log(payload);
       return {
         ...state,
-        loading: false,
-        msg_model: payload.messageModel,
+        messages: x,
       };
     case MESSAGE_FAIL:
       return {
@@ -55,13 +62,14 @@ export default function chats(state = initState, action) {
       };
 
     case MEMBER_ADDED:
-      let x = state.room;
-      x.members.push(payload);
+      let temp = state.room;
+      temp.members.push(payload);
       return { ...state, room: x };
 
     case GROUP_DP_FAIL:
     case GROUP_DP_UPLOAD:
     case MEMBER_ADD_FAIL:
+    case NEW_MESSAGE_FAIL:
     default:
       return state;
   }
