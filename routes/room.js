@@ -149,7 +149,7 @@ router.put('/:mid/message', [
       messageModel.msg_contents.push(newMessage);
 
       await messageModel.save();
-      res.json({ messageModel });
+      res.json(messageModel.msg_contents[messageModel.msg_contents.length - 1]);
     } catch (error) {
       if (error.kind == 'ObjectId') {
         return res.status(400).send('No such group exists.');
