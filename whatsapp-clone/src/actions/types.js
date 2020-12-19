@@ -18,3 +18,5 @@ export const MEMBER_ADDED = 'MEMBER_ADDED';
 export const MEMBER_ADD_FAIL = 'MEMBER_ADD_FAIL';
 export const GROUP_DP_UPLOAD = 'GROUP_DP_UPLOAD';
 export const GROUP_DP_FAIL = 'GROUP_DP_FAIL';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const NEW_MESSAGE_FAIL = 'NEW_MESSAGE_FAIL';

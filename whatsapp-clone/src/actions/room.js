@@ -11,6 +11,8 @@ import {
   MEMBER_ADD_FAIL,
   GROUP_DP_UPLOAD,
   GROUP_DP_FAIL,
+  NEW_MESSAGE,
+  NEW_MESSAGE_FAIL,
 } from './types';
 // create group
 export const create_group = ({ group_details, group_DP }) => async (
@@ -104,5 +106,26 @@ export const group_image = (gid, file_image) => async (dispatch) => {
     dispatch({ type: GROUP_DP_UPLOAD });
   } catch (error) {
     dispatch({ type: GROUP_DP_FAIL });
+  }
+};
+
+// update with new message
+export const new_message = (message, mid, uid) => async (dispatch) => {
+  try {
+    console.log(message, mid, uid);
+
+    if (mid === message.msg_model._id) {
+      if (Array.isArray(message.data)) {
+        if (message.data[0].uid !== uid) {
+          dispatch({ type: NEW_MESSAGE, payload: message.data });
+        }
+      } else {
+        if (message.data.uid !== uid) {
+          dispatch({ type: NEW_MESSAGE, payload: message.data });
+        }
+      }
+    }
+  } catch (error) {
+    dispatch({ type: NEW_MESSAGE_FAIL });
   }
 };
