@@ -20,19 +20,7 @@ function App() {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-  // const [messages, setmessages] = useState([]);
 
-  // useEffect(() => {
-  //   const pusher = new Pusher('59140e79370d6491a60f', {
-  //     cluster: 'ap2',
-  //   });
-
-  //   const channel = pusher.subscribe('messages');
-  //   channel.bind('updated', function (newMessage) {
-  //     alert(JSON.stringify(newMessage));
-  //     setmessages(...messages, newMessage);
-  //   });
-  // }, [messages]);
   return (
     <Provider store={store}>
       <BrowserRouter>
