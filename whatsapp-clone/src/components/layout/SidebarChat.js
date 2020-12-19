@@ -10,7 +10,7 @@ function SidebarChat({ room, img, title, open_room, key }) {
   };
   return (
     <div className='sidebarChat' onClick={(e) => roomClickHandler(room)}>
-      <Avatar src={`/uploads/rooms/${room}.jpeg`} />
+      <Avatar src={`/uploads/rooms/${room}.jpeg?${Date.now()}`} />
       <div className='sidebarChat__info'>
         <h2>{title}</h2>
       </div>

@@ -82,12 +82,7 @@ function SideBar({
       </div>
       <div className='sidebar__chats'>
         {participant.map((group) => (
-          <SidebarChat
-            key={group._id}
-            room={group.room}
-            // img={group.grp_img}
-            title={group.title}
-          />
+          <SidebarChat key={group._id} room={group.room} title={group.title} />
         ))}
       </div>
     </div>
