@@ -50,7 +50,6 @@ export default function chats(state = initState, action) {
     case NEW_MESSAGE:
     case MESSAGE_SUCCESS:
       let x = [...state.messages, payload];
-      console.log(payload);
       return {
         ...state,
         messages: x,

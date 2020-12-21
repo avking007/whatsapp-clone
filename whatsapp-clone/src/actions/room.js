@@ -112,8 +112,6 @@ export const group_image = (gid, file_image) => async (dispatch) => {
 // update with new message
 export const new_message = (message, mid, uid) => async (dispatch) => {
   try {
-    console.log(message, mid, uid);
-
     if (mid === message.msg_model._id) {
       if (Array.isArray(message.data)) {
         if (message.data[0].uid !== uid) {

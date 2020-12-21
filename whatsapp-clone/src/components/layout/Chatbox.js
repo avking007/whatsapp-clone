@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, createRef } from 'react';
 import './Chatbox.css';
 import {
   Avatar,
@@ -119,20 +119,84 @@ function Chatbox({
   };
   const handleSearchClose = () => {
     setsearchEl(null);
+    setsrch_message('');
+    if (scrollFound.length > 0) {
+      messageRef.current[
+        scrollFound[(foundIdx - 1) % scrollFound.length]
+      ].current.classList.remove('message__found');
+    }
+    setscrollFound([]);
+    setfoundIdx(0);
+    setflag(false);
   };
   // ----
+  const [flag, setflag] = useState(false);
+  const messageRef = useRef([]);
 
+  // scroller to found message
+  const scroller = (idx) => {
+    messageRef.current[idx].current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+    messageRef.current[idx].current.classList.add('message__found');
+  };
   // search message
-  const SearchMessage = () => {};
+  const [scrollFound, setscrollFound] = useState([]);
+  const [foundIdx, setfoundIdx] = useState(0);
+  const scrollToMessage = (e) => {
+    const search = srch_message;
+    e.preventDefault();
+    if (scrollFound.length === 0) {
+      // prepare search if new search message
+      const found = [];
+      for (let i = 0; i < messages.length; i++) {
+        if (messages[i].message.includes(search)) {
+          found.push(i);
+        }
+      }
+      setscrollFound(found);
+    } else {
+      // same previous search
+      if (flag) {
+        if (
+          foundIdx % scrollFound.length !==
+          (foundIdx - 1) % scrollFound.length
+        ) {
+          messageRef.current[
+            scrollFound[(foundIdx - 1) % scrollFound.length]
+          ].current.classList.remove('message__found');
+        }
+      }
+      setflag(true);
+
+      // scroll to it
+      scroller(scrollFound[foundIdx % scrollFound.length]);
+
+      let temp_c = foundIdx;
+      setfoundIdx(temp_c + 1);
+    }
+  };
 
   // handle search message input
   const srchMessageChange = (e) => {
     setsrch_message(e.target.value);
+    if (scrollFound.length > 0) {
+      messageRef.current[
+        scrollFound[foundIdx % scrollFound.length]
+      ].current.classList.remove('message__found');
+    }
+    setscrollFound([]);
+    setfoundIdx(0);
+    setflag(false);
+
+    // setscrollFound([]);
   };
+  // console.log(messageRef);
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
-
+  // console.log(messageRef);
   return loading ? null : (
     <div className='chatbox'>
       <div className='chatbox__header'>
@@ -159,20 +223,22 @@ function Chatbox({
             onClose={handleSearchClose}
             getContentAnchorEl={null}
             TransitionComponent={Fade}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
             <MenuItem>
-              <form onSubmit={SearchMessage}>
+              <form onSubmit={scrollToMessage}>
                 <TextField
                   autoComplete='off'
-                  label='Search message'
+                  label='message'
                   variant='outlined'
                   value={srch_message}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(e) => srchMessageChange(e)}
+                  onChange={(e) => {
+                    srchMessageChange(e);
+                  }}
                 />
               </form>
             </MenuItem>
@@ -205,7 +271,15 @@ function Chatbox({
       </div>
       <div className='chatbox__body hidden_scroll'>
         {messages &&
-          messages.map((mess) => <MessageItem key={mess._id} msg={mess} />)}
+          messages.map((mess, index) => (
+            // <div ref={(messageRef.current[index] =  key={mess._id}>
+            <MessageItem
+              key={mess._id}
+              msg={mess}
+              inpRef={(messageRef.current[index] = createRef())}
+            />
+            // </div>
+          ))}
         <div ref={scrollBottom} />
       </div>
       <div className='chat__footer'>

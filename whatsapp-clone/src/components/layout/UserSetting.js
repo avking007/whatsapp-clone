@@ -14,7 +14,7 @@ import { logout, add_image } from '../../actions/auth';
 import './userSetting.css';
 
 function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
-  const [dispImage, setdispImage] = useState('/' + user_image);
+  const [dispImage] = useState('/' + user_image);
 
   const [dpmenu, setdpmenu] = useState(false);
   const [image, setimage] = useState({ file: null });
