@@ -20,6 +20,8 @@ function SideBar({
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [Finder, setFinder] = useState('');
+
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
@@ -40,6 +42,18 @@ function SideBar({
   const SettingClickHandler = () => {
     history.push(`/${_id}/setting`);
   };
+  const FindChats = (e) => {
+    setFinder(e.target.value);
+  };
+
+  const SearchResults =
+    Finder.length > 0 &&
+    participant.map(
+      (group) =>
+        group.title.toLowerCase().includes(Finder) && (
+          <SidebarChat key={group._id} room={group.room} title={group.title} />
+        )
+    );
 
   return (
     <div className='sidebar'>
@@ -77,13 +91,27 @@ function SideBar({
       <div className='sidebar__search'>
         <div className='sidebar__searchContainer'>
           <SearchOutLined />
-          <input type='text' name='' id='' placeholder='Search' />
+          <input
+            type='text'
+            name=''
+            id=''
+            placeholder='Search'
+            onChange={FindChats}
+            value={Finder}
+            autoComplete='off'
+          />
         </div>
       </div>
       <div className='sidebar__chats'>
-        {participant.map((group) => (
-          <SidebarChat key={group._id} room={group.room} title={group.title} />
-        ))}
+        {Finder.length > 0
+          ? SearchResults
+          : participant.map((group) => (
+              <SidebarChat
+                key={group._id}
+                room={group.room}
+                title={group.title}
+              />
+            ))}
       </div>
     </div>
   );
