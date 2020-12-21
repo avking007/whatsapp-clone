@@ -10,12 +10,7 @@ import {
 } from '@material-ui/core';
 import { Picker } from 'emoji-mart';
 import { connect } from 'react-redux';
-import {
-  AttachFile,
-  SearchOutlined,
-  MoreVert,
-  InsertEmoticon,
-} from '@material-ui/icons';
+import { SearchOutlined, MoreVert, InsertEmoticon } from '@material-ui/icons';
 import Moment from 'react-moment';
 import MessageItem from './MessageItem';
 import { sendMessage } from '../../actions/room';
@@ -35,6 +30,7 @@ function Chatbox({
   msgModel,
   close_group,
   new_message,
+  _v,
 }) {
   const scrollBottom = useRef();
   const scrollToBottom = () => {
@@ -208,7 +204,7 @@ function Chatbox({
   return loading ? null : (
     <div className='chatbox'>
       <div className='chatbox__header'>
-        <Avatar src={`/uploads/rooms/${room._id}.jpeg?${Date.now()}`} />
+        <Avatar src={`/uploads/rooms/${room._id}.jpeg?${_v}`} />
         <div className='chatbox__headerinfo'>
           <h3>{room.title}</h3>
           <p>
@@ -251,9 +247,6 @@ function Chatbox({
               </form>
             </MenuItem>
           </Menu>
-          <IconButton>
-            <AttachFile />
-          </IconButton>
           <IconButton
             aria-controls='fade-menu'
             aria-haspopup='true'
@@ -330,6 +323,7 @@ export const mapper = (state) => ({
   user: state.user.user,
   isAuth: state.user.isAuth,
   msgModel: state.chats.msg_model,
+  _v: state.chats._v,
 });
 
 export default connect(mapper, { new_message, sendMessage, close_group })(

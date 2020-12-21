@@ -16,6 +16,7 @@ const initState = {
   token: localStorage.getItem('token'),
   loading: true,
   image: '',
+  _v: 0,
 };
 
 export default function user(state = initState, action) {
@@ -48,7 +49,9 @@ export default function user(state = initState, action) {
       return { ...state, user: payload };
 
     case IMAGE_UPLOADED:
-      return { ...state, image: payload.path };
+      let temp = state._v;
+      temp += 1;
+      return { ...state, image: payload.path, _v: temp };
 
     case IMAGE_UPLOAD_FAIL:
     case ROOM_CREATE_FAIL:

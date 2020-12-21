@@ -13,7 +13,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { add_member, group_image } from '../../actions/room';
 
-function RoomSetting({ room, isAuth, history, add_member, group_image }) {
+function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
   const goBackHandler = () => {
     localStorage.clear();
     history.push('/');
@@ -63,13 +63,12 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
     setgroupDP({ file: file });
   };
   const { title, desc } = room;
-
   return (
     <div className='room_setting'>
       <div className='room_setting__body'>
         {/* header */}
         <div className='room_setting__header'>
-          <Avatar src={`/uploads/rooms/${room._id}.jpeg?${Date.now()}`} />
+          <Avatar src={`/uploads/rooms/${room._id}.jpeg?${_v}`} />
 
           <div className='room_setting__headerRight'>
             <h2>{title}</h2>
@@ -169,6 +168,7 @@ function RoomSetting({ room, isAuth, history, add_member, group_image }) {
 const mapper = (state) => ({
   room: state.chats.room,
   isAuth: state.user.isAuth,
+  _v: state.chats._v,
 });
 
 export default connect(mapper, { add_member, group_image })(

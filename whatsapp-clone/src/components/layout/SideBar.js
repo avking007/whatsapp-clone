@@ -14,6 +14,7 @@ function SideBar({
     isAuth,
     user: { name, participant, _id },
     image,
+    _v,
   },
   history,
   logout,
@@ -58,7 +59,7 @@ function SideBar({
   return (
     <div className='sidebar'>
       <div className='sidebar__header'>
-        <Avatar src={`${image}?${Date.now()}`} />
+        <Avatar src={`${image}?${_v}`} />
         <div className='sidebar__headerRights'>
           <IconButton onClick={newChatHandler}>
             <ChatIcon />

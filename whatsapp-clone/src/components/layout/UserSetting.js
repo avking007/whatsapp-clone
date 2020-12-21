@@ -13,7 +13,15 @@ import { connect } from 'react-redux';
 import { logout, add_image } from '../../actions/auth';
 import './userSetting.css';
 
-function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
+function UserSetting({
+  history,
+  logout,
+  isAuth,
+  user,
+  add_image,
+  user_image,
+  _v,
+}) {
   const [dispImage] = useState('/' + user_image);
 
   const [dpmenu, setdpmenu] = useState(false);
@@ -37,7 +45,6 @@ function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
     e.preventDefault();
     if (image.file) {
       add_image(user._id, image.file);
-      // setdispImage('/' + user_image);
     }
     setimage({ file: null });
     dpToggler();
@@ -49,7 +56,7 @@ function UserSetting({ history, logout, isAuth, user, add_image, user_image }) {
       <div className='setting__body'>
         {/* header */}
         <div className='setting__header'>
-          <Avatar src={`${dispImage}?${Date.now()}`} />
+          <Avatar src={`${dispImage}?${_v}`} />
           <div className='setting__headerRight'>
             <TextField
               value={name}
@@ -110,6 +117,7 @@ const mapper = (state) => ({
   isAuth: state.user.isAuth,
   user: state.user.user,
   user_image: state.user.image,
+  _v: state.user._v,
 });
 
 export default connect(mapper, { logout, add_image })(withRouter(UserSetting));

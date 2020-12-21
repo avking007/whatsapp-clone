@@ -18,6 +18,7 @@ const initState = {
   error: [],
   msg_model: null,
   messages: [],
+  _v: 0,
 };
 export default function chats(state = initState, action) {
   const { type, payload } = action;
@@ -30,6 +31,7 @@ export default function chats(state = initState, action) {
         msg_model: null,
         error: [],
         messages: [],
+        _v: 0,
       };
 
     case ROOM_ERROR:
@@ -47,6 +49,7 @@ export default function chats(state = initState, action) {
         loading: false,
         msg_model: { _id, room, __v },
         messages: payload.msg_model.msg_contents,
+        _v: __v,
       };
 
     case NEW_MESSAGE:
@@ -66,9 +69,15 @@ export default function chats(state = initState, action) {
       let temp = state.room;
       temp.members.push(payload);
       return { ...state, room: x };
+    case GROUP_DP_UPLOAD:
+      let dp = state._v;
+      dp += 1;
+      return {
+        ...state,
+        _v: dp,
+      };
 
     case GROUP_DP_FAIL:
-    case GROUP_DP_UPLOAD:
     case MEMBER_ADD_FAIL:
     case NEW_MESSAGE_FAIL:
     default:
