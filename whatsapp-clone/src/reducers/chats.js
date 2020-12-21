@@ -39,11 +39,13 @@ export default function chats(state = initState, action) {
         error: payload,
       };
     case ROOM_LOADED:
+      let { _id, room, __v } = payload.msg_model;
+
       return {
         ...state,
         room: payload.room,
         loading: false,
-        msg_model: payload.msg_model,
+        msg_model: { _id, room, __v },
         messages: payload.msg_model.msg_contents,
       };
 
