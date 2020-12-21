@@ -86,3 +86,11 @@
   padding: 10px;
   color: gray;
 }
+
+.emoji-mart {
+  bottom: '20px';
+  right: '20px';
+  overflow: hidden;
+  width: auto !important;
+  height: 40vh;
+}

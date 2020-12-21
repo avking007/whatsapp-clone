@@ -8,6 +8,7 @@ import {
   MenuItem,
   TextField,
 } from '@material-ui/core';
+import { Picker } from 'emoji-mart';
 import { connect } from 'react-redux';
 import {
   AttachFile,
@@ -20,6 +21,7 @@ import MessageItem from './MessageItem';
 import { sendMessage } from '../../actions/room';
 import { Redirect, withRouter } from 'react-router-dom';
 import { close_group, new_message } from '../../actions/room';
+import 'emoji-mart/css/emoji-mart.css';
 
 import Pusher from 'pusher-js';
 function Chatbox({
@@ -51,7 +53,11 @@ function Chatbox({
   const [searchEl, setsearchEl] = useState(null);
   const open = Boolean(anchorEl);
   const openSrch = Boolean(searchEl);
+  const [emojiMenu, setemojiMenu] = useState(false);
 
+  const toggleEmojiPicker = () => {
+    setemojiMenu(!emojiMenu);
+  };
   // --------
   // setting menu toggle
   const handleOpen = (event) => {
@@ -189,8 +195,10 @@ function Chatbox({
     setscrollFound([]);
     setfoundIdx(0);
     setflag(false);
-
-    // setscrollFound([]);
+  };
+  const addEmojitoMessage = (emoji) => {
+    let new_mess = `${mess.message}${emoji.native}`;
+    setmess({ ...mess, message: new_mess });
   };
   // console.log(messageRef);
   if (!isAuth) {
@@ -272,18 +280,26 @@ function Chatbox({
       <div className='chatbox__body hidden_scroll'>
         {messages &&
           messages.map((mess, index) => (
-            // <div ref={(messageRef.current[index] =  key={mess._id}>
             <MessageItem
               key={mess._id}
               msg={mess}
               inpRef={(messageRef.current[index] = createRef())}
             />
-            // </div>
           ))}
         <div ref={scrollBottom} />
       </div>
+      {emojiMenu && (
+        <Picker
+          showSkinTones={false}
+          showPreview={false}
+          defaultSkin='1'
+          set='google'
+          className='emoji-mart'
+          onSelect={addEmojitoMessage}
+        />
+      )}
       <div className='chat__footer'>
-        <IconButton>
+        <IconButton onClick={toggleEmojiPicker}>
           <InsertEmoticon />
         </IconButton>
         <form
