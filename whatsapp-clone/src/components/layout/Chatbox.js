@@ -49,7 +49,27 @@ function Chatbox({
   const open = Boolean(anchorEl);
   const openSrch = Boolean(searchEl);
   const [emojiMenu, setemojiMenu] = useState(false);
+  const search_ref = useRef();
 
+  const stopPropagation = (e) => {
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+      case 'Home':
+      case 'End':
+        break;
+      default:
+        e.stopPropagation();
+    }
+  };
+
+  const moveFocusToInput = (e) => {
+    if (e.key === 'Tab' || e.key === 'ArrowRight') {
+      e.stopPropagation();
+      e.preventDefault();
+      search_ref.current.focus();
+    }
+  };
   const toggleEmojiPicker = () => {
     setemojiMenu(!emojiMenu);
   };
@@ -195,11 +215,10 @@ function Chatbox({
     let new_mess = `${mess.message}${emoji.native}`;
     setmess({ ...mess, message: new_mess, user: user.name });
   };
-  // console.log(messageRef);
+
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
-  // console.log(messageRef);
   return loading ? null : (
     <div className='chatbox'>
       <div className='chatbox__header'>
@@ -229,11 +248,14 @@ function Chatbox({
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <MenuItem style={{ background: '#0f0f0f' }}>
+            <MenuItem
+              onKeyDown={moveFocusToInput}
+              style={{ background: '#0f0f0f' }}
+            >
               <form onSubmit={scrollToMessage} className='message_finder'>
                 <TextField
                   autoComplete='off'
-                  label='message'
+                  label='Finder'
                   variant='outlined'
                   value={srch_message}
                   InputLabelProps={{
@@ -242,6 +264,8 @@ function Chatbox({
                       color: '#d1d1d1',
                     },
                   }}
+                  inputRef={search_ref}
+                  onKeyDown={stopPropagation}
                   InputProps={{
                     style: {
                       color: '#d1d1d1',
