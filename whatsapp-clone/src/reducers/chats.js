@@ -68,7 +68,7 @@ export default function chats(state = initState, action) {
     case MEMBER_ADDED:
       let temp = state.room;
       temp.members.push(payload);
-      return { ...state, room: x };
+      return { ...state, room: temp };
     case GROUP_DP_UPLOAD:
       let dp = state._v;
       dp += 1;

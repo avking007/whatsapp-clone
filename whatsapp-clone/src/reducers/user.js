@@ -17,6 +17,7 @@ const initState = {
   loading: true,
   image: '',
   _v: 0,
+  error: [],
 };
 
 export default function user(state = initState, action) {
@@ -24,7 +25,7 @@ export default function user(state = initState, action) {
   switch (type) {
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
-      return { ...state, ...payload, isAuth: true, loading: false };
+      return { ...state, ...payload, isAuth: true, loading: false, error: [] };
     case USER_LOADED:
       return {
         ...state,
@@ -32,6 +33,7 @@ export default function user(state = initState, action) {
         isAuth: true,
         loading: false,
         image: `uploads/users/${payload._id}.jpeg`,
+        error: [],
       };
     case LOGIN_FAIL:
     case AUTH_ERROR:
@@ -44,6 +46,7 @@ export default function user(state = initState, action) {
         loading: true,
         token: null,
         image: '',
+        error: [],
       };
     case ROOM_CREATED:
       return { ...state, user: payload };
@@ -53,8 +56,9 @@ export default function user(state = initState, action) {
       temp += 1;
       return { ...state, image: payload.path, _v: temp };
 
-    case IMAGE_UPLOAD_FAIL:
     case ROOM_CREATE_FAIL:
+      return { ...state, error: payload };
+    case IMAGE_UPLOAD_FAIL:
       return state;
     default:
       return state;
