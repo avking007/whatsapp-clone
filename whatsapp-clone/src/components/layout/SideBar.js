@@ -84,8 +84,12 @@ function SideBar({
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             transformOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
-            <MenuItem onClick={SettingClickHandler}>Settings</MenuItem>
-            <MenuItem onClick={LogoutHandler}>Logout</MenuItem>
+            <MenuItem className='menu__buttons' onClick={SettingClickHandler}>
+              Settings
+            </MenuItem>
+            <MenuItem className='menu__buttons' onClick={LogoutHandler}>
+              Logout
+            </MenuItem>
           </Menu>
         </div>
       </div>

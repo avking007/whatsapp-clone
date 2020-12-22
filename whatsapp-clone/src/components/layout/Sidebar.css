@@ -39,9 +39,9 @@
   display: flex;
   align-items: center;
   background-color: #393e46;
-  width: 100%;
+  flex: 1;
   height: 35px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .sidebar__searchContainer > .MuiSvgIcon-root {
   color: whitesmoke;
@@ -53,7 +53,7 @@
   outline-width: 0;
   background-color: #393e46;
   color: white;
-  width: 18vw;
+  flex: 1;
 }
 
 .sidebar__chats {
