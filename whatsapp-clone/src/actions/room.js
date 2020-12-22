@@ -36,8 +36,7 @@ export const create_group = ({ group_details, group_DP }) => async (
     }
     dispatch({ type: ROOM_CREATED, payload: res.data.creator });
   } catch (error) {
-    alert(error);
-    dispatch({ type: ROOM_CREATE_FAIL });
+    dispatch({ type: ROOM_CREATE_FAIL, payload: error });
   }
 };
 
@@ -48,7 +47,7 @@ export const open_room = (room_id) => async (dispatch) => {
     const res = await axios.get(`/room/${room_id}`);
     dispatch({ type: ROOM_LOADED, payload: res.data });
   } catch (error) {
-    dispatch({ type: ROOM_ERROR });
+    dispatch({ type: ROOM_ERROR, payload: error });
   }
 };
 // add message in group
@@ -66,8 +65,7 @@ export const sendMessage = (message, Mess_model_Id) => async (dispatch) => {
     const res = await axios.put(`/room/${Mess_model_Id}/message`, body, config);
     dispatch({ type: MESSAGE_SUCCESS, payload: res.data });
   } catch (error) {
-    dispatch({ type: MESSAGE_FAIL });
-    alert(error);
+    dispatch({ type: MESSAGE_FAIL, payload: error });
   }
 };
 // close group
