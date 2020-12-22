@@ -42,7 +42,6 @@ function Chatbox({
       scrollToBottom();
     }
   }, [messages]);
-  // console.log(messages);
   const [srch_message, setsrch_message] = useState('');
   const [mess, setmess] = useState({ user: '', message: '' });
   const [anchorEl, setanchorEl] = useState(null);
@@ -79,7 +78,7 @@ function Chatbox({
   // message input handle
   const changeHandler = (e) => {
     const sender = user && user.name;
-    if (mess.user) {
+    if (mess.user.length > 0) {
       setmess({ ...mess, message: e.target.value });
     } else {
       setmess({ ...mess, message: e.target.value, user: sender });
@@ -194,7 +193,7 @@ function Chatbox({
   };
   const addEmojitoMessage = (emoji) => {
     let new_mess = `${mess.message}${emoji.native}`;
-    setmess({ ...mess, message: new_mess });
+    setmess({ ...mess, message: new_mess, user: user.name });
   };
   // console.log(messageRef);
   if (!isAuth) {
