@@ -15,7 +15,7 @@ const RoomSchema = new mongo.Schema({
 
   date: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   messageModel: {
     type: mongo.Schema.Types.ObjectId,

@@ -17,7 +17,7 @@ const messageSchema = mongo.Schema({
       },
       date: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
       },
       uid: {
         type: mongo.Schema.Types.ObjectId,
