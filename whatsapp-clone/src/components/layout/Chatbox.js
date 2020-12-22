@@ -229,8 +229,8 @@ function Chatbox({
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <MenuItem>
-              <form onSubmit={scrollToMessage}>
+            <MenuItem style={{ background: '#0f0f0f' }}>
+              <form onSubmit={scrollToMessage} className='message_finder'>
                 <TextField
                   autoComplete='off'
                   label='message'
@@ -238,6 +238,14 @@ function Chatbox({
                   value={srch_message}
                   InputLabelProps={{
                     shrink: true,
+                    style: {
+                      color: '#d1d1d1',
+                    },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: '#d1d1d1',
+                    },
                   }}
                   onChange={(e) => {
                     srchMessageChange(e);
@@ -264,8 +272,12 @@ function Chatbox({
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             transformOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
-            <MenuItem onClick={GroupSettinghandler}>Settings</MenuItem>
-            <MenuItem onClick={groupCloseHandler}>Close Group</MenuItem>
+            <MenuItem className='menu__buttons' onClick={GroupSettinghandler}>
+              Settings
+            </MenuItem>
+            <MenuItem onClick={groupCloseHandler} className='menu__buttons'>
+              Close Group
+            </MenuItem>
           </Menu>
         </div>
       </div>
@@ -288,6 +300,8 @@ function Chatbox({
           set='google'
           className='emoji-mart'
           onSelect={addEmojitoMessage}
+          theme='dark'
+          useButton={false}
         />
       )}
       <div className='chat__footer'>

@@ -44,10 +44,20 @@ function CreateRoom({ isAuth, history, create_group }) {
               value={group.title}
               label='Group Name'
               variant='outlined'
-              id='outlined-basic'
+              id='standard-basic'
               autoComplete='off'
               onChange={(e) => {
                 changeHandler(e);
+              }}
+              InputLabelProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
+              }}
+              inputProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
               }}
             />
             <TextField
@@ -60,6 +70,19 @@ function CreateRoom({ isAuth, history, create_group }) {
               onChange={(e) => {
                 changeHandler(e);
               }}
+              InputLabelProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
+                className: {
+                  color: 'white',
+                },
+              }}
+              inputProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
+              }}
             />
             <TextField
               variant='outlined'
@@ -67,6 +90,14 @@ function CreateRoom({ isAuth, history, create_group }) {
               label='Add image'
               InputLabelProps={{
                 shrink: true,
+                style: {
+                  color: '#d1d1d1',
+                },
+              }}
+              inputProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
               }}
               type='file'
               onChange={(e) => {

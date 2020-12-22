@@ -60,7 +60,7 @@ function SideBar({
     <div className='sidebar'>
       <div className='sidebar__header'>
         <Avatar src={`${image}?${_v}`} />
-        <div className='sidebar__headerRights'>
+        <div className='sidebar__headerRight'>
           <IconButton onClick={newChatHandler}>
             <ChatIcon />
           </IconButton>

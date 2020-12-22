@@ -2,24 +2,23 @@
   display: grid;
   place-items: center;
   height: 100vh;
-  background-color: #dadbd3;
-  background-image: url('../../style_img/background.jpg');
+  background-color: #121212;
 }
 
 .setting__body {
   display: flex;
   flex-direction: column;
-  background-color: #ededed;
+  background-color: #0f0f0f;
   height: 50vh;
   min-width: 40vw;
-  box-shadow: -1px 4px 20px -6px rgb(0, 0, 0, 0.75);
+  box-shadow: -1px 4px 20px -6px #929aa7;
 }
 
 .setting__header {
   display: flex;
   height: 15vh;
   padding: 30px;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #393e46;
 }
 
 .setting__header > .MuiAvatar-root {
@@ -37,6 +36,7 @@
 }
 .setting__headerRight > .MuiTextField-root {
   margin-bottom: 14px;
+  flex: 1;
 }
 .setting__buttons {
   display: flex;
@@ -48,17 +48,26 @@
   text-transform: inherit;
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
-  margin-left: 10px;
+  margin-left: 20px;
+  color: #bababa;
+  top: 20px;
+}
+
+.setting__header > .MuiButton-root:hover {
+  background-color: #2f2f2f;
 }
 
 .setting__buttons > .MuiButton-root {
   padding: 10px;
   font-weight: 600;
+  color: #bababa;
+}
+.setting__buttons > .MuiButton-root:hover {
+  background-color: #2f2f2f;
 }
 .image_form {
   display: flex;
   flex-direction: column;
-  /* padding: 30px; */
 }
 .image_form > .MuiButton-root {
   margin: 15px;

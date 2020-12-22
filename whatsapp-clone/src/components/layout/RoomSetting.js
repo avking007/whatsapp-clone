@@ -79,6 +79,14 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
                 id='standard-read-only-input'
                 InputProps={{
                   readOnly: true,
+                  style: {
+                    color: '#d1d1d1',
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: '#d1d1d1',
+                  },
                 }}
               />
             )}
@@ -92,6 +100,9 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
             open={dpMenu}
             onClose={toggleDPMenu}
             aria-labelledby='responsive-dialog-title'
+            BackdropProps={{
+              backgroundcolor: 'rgba(0,0,0,0.2)',
+            }}
           >
             <DialogContent>
               <DialogContentText>
@@ -108,6 +119,14 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
                   label='Add image'
                   InputLabelProps={{
                     shrink: true,
+                    style: {
+                      color: '#d1d1d1',
+                    },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: '#d1d1d1',
+                    },
                   }}
                   type='file'
                   onChange={(e) => {
@@ -142,6 +161,17 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
                   type='email'
                   onChange={(e) => {
                     addMemberHandler(e);
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: {
+                      color: '#d1d1d1',
+                    },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: '#d1d1d1',
+                    },
                   }}
                 />
               </form>

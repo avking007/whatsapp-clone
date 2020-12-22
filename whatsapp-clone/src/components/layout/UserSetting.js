@@ -63,6 +63,14 @@ function UserSetting({
               label='Name'
               InputProps={{
                 readOnly: true,
+                style: {
+                  color: '#d1d1d1',
+                },
+              }}
+              InputLabelProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
               }}
             />
             <TextField
@@ -70,6 +78,14 @@ function UserSetting({
               label='Email'
               InputProps={{
                 readOnly: true,
+                style: {
+                  color: '#d1d1d1',
+                },
+              }}
+              InputLabelProps={{
+                style: {
+                  color: '#d1d1d1',
+                },
               }}
             />
           </div>

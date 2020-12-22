@@ -2,8 +2,7 @@
   display: grid;
   place-items: center;
   height: 100vh;
-  background-color: #dadbd3;
-  background-image: url('../../style_img/background.jpg');
+  background-color: #121212;
 }
 
 .room_setting__body {
@@ -12,14 +11,17 @@
   background-color: #ededed;
   height: 90vh;
   width: 70vw;
-  box-shadow: -1px 4px 20px -6px rgb(0, 0, 0, 0.75);
+  background-color: #0f0f0f;
+  box-shadow: -1px 4px 20px -6px #929aa7;
 }
 
 .room_setting__header {
   display: flex;
   height: 13vh;
   padding: 30px;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #393e46;
+
+  color: #d1d1d1;
 }
 
 .room_setting__header > .MuiAvatar-root {
@@ -37,7 +39,6 @@
 .room_setting__headerRight > .MuiTextField-root {
   width: fit-content;
   margin-top: 10px;
-  color: black;
 }
 
 .room_setting__buttons {
@@ -50,11 +51,29 @@
   text-transform: inherit;
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
+  color: #d1d1d1;
 }
-
+.room_setting__header > .MuiButton-root:hover {
+  background-color: #2f2f2f;
+}
 .room_setting__buttons > .MuiButton-root {
   padding: 10px;
   font-weight: 600;
+  color: #d1d1d1;
+}
+.room_setting__buttons > .MuiButton-root:hover {
+  background-color: #2f2f2f;
+}
+.MuiDialogActions-root {
+  background-color: #0f0f0f;
+}
+.MuiDialogContent-root {
+  background-color: #0f0f0f;
+  border-bottom: 1px solid #393e46;
+}
+.MuiDialogContent-root {
+  color: #d1d1d1;
+  background-color: #d1d1d1;
 }
 
 .room__members {
@@ -68,6 +87,7 @@
   width: 35vw;
   align-self: center;
   overflow: auto;
+  color: #d1d1d1;
 }
 
 .room__member {
@@ -97,6 +117,6 @@
 
 .room__membersHeader {
   margin-bottom: 5px;
-  border-bottom: 1px solid black;
   width: 100%;
+  border-bottom: 2px solid #393e46;
 }
