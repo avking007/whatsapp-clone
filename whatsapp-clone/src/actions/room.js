@@ -13,6 +13,8 @@ import {
   GROUP_DP_FAIL,
   NEW_MESSAGE,
   NEW_MESSAGE_FAIL,
+  GROUP_DELETED,
+  GROUP_DELETED_FAIL,
 } from './types';
 // create group
 export const create_group = ({ group_details, group_DP }) => async (
@@ -123,5 +125,16 @@ export const new_message = (message, mid, uid) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: NEW_MESSAGE_FAIL });
+  }
+};
+
+// delete group
+export const delete_group = (gid) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/room/${gid}/delete`);
+    dispatch({ type: GROUP_DELETED, payload: res.data });
+    dispatch({ type: CLEAR_ROOM });
+  } catch (error) {
+    dispatch({ type: GROUP_DELETED_FAIL });
   }
 };
