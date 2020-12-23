@@ -219,15 +219,28 @@ function Chatbox({
   if (!isAuth) {
     return <Redirect to='/login' />;
   }
+  const stringShortener = (arr) => {
+    let str = '';
+    for (let i = 0; i < arr.length; i++) {
+      if (str.length > 16) {
+        str += '...';
+        break;
+      }
+      if (i !== arr.length - 1) {
+        str += arr[i].name + ', ';
+      } else {
+        str += arr[i].name;
+      }
+    }
+    return str;
+  };
   return loading ? null : (
     <div className='chatbox'>
       <div className='chatbox__header'>
         <Avatar src={`/uploads/rooms/${room._id}.jpeg?${_v}`} />
         <div className='chatbox__headerinfo'>
           <h3>{room.title}</h3>
-          <p>
-            Created on <Moment format='DD/MM/YY'>{room.date}</Moment>
-          </p>
+          <p>{room && room.members && stringShortener(room.members)}</p>
         </div>
         <div className='chatbox__headerRight'>
           <IconButton
