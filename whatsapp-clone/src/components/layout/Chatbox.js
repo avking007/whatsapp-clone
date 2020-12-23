@@ -109,8 +109,8 @@ function Chatbox({
   // send message
   const SubmitHandler = (e) => {
     e.preventDefault();
-    setmess({ ...mess, message: '' });
     sendMessage(mess, msgModel._id);
+    setmess({ ...mess, message: '' });
   };
 
   useEffect(() => {
