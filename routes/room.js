@@ -56,7 +56,7 @@ router.post(
         newRoom.desc = desc;
       }
 
-      newRoom.user = req.user.id;
+      newRoom.creator = req.user.id;
       let member = [];
       member.push({
         user: req.user.id,
@@ -85,6 +85,48 @@ router.post(
     }
   }
 );
+
+// route room/:gid/delete
+// access private
+//desc  delete group
+router.delete('/:gid/delete', auth, async (req, res) => {
+  // get group
+  try {
+    let group = await Room.findById(req.params.gid);
+    if (!group) {
+      return res.status(400).send('No such group exists.');
+    }
+    if (group.creator != req.user.id) {
+      return res.status(401).send('Access Denied');
+    }
+
+    // remove message model of this group
+    let messageModel = group.messageModel;
+    await Message.deleteOne({ _id: messageModel });
+
+    // remove members of that group
+    let members = group.members;
+    for (let i = 0; i < members.length; i++) {
+      let member = members[i];
+      let tempUser = await User.findById(member.user).select('participant');
+      const removeIdx = tempUser.participant
+        .map((group) => {
+          group.room;
+        })
+        .indexOf(req.params.gid);
+      tempUser.participant.splice(removeIdx, 1);
+      await tempUser.save();
+    }
+
+    // remove group
+    let user = await User.findById(req.user.id).select('-password');
+    await group.deleteOne({ _id: req.params.gid });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Server Error');
+  }
+});
 
 // route room/:gid
 // access private
