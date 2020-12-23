@@ -120,3 +120,12 @@
   width: 100%;
   border-bottom: 2px solid #393e46;
 }
+
+.delete__option {
+  display: flex;
+  flex-direction: column;
+}
+
+.delete__option > .MuiButton-root:hover {
+  background-color: rgb(94, 28, 28);
+}

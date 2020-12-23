@@ -11,9 +11,18 @@ import React, { useState, useEffect } from 'react';
 import './roomSetting.css';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { add_member, group_image } from '../../actions/room';
+import { add_member, group_image, delete_group } from '../../actions/room';
 
-function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
+function RoomSetting({
+  room,
+  isAuth,
+  history,
+  add_member,
+  delete_group,
+  group_image,
+  _v,
+  user,
+}) {
   const goBackHandler = () => {
     localStorage.clear();
     history.push('/');
@@ -32,6 +41,11 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
   const [showMem, setshowMem] = useState(false);
   const [dpMenu, setdpMenu] = useState(false);
   const [groupDP, setgroupDP] = useState({ file: null });
+  const [deleteMenu, setdeleteMenu] = useState(false);
+  const DeletMenuOpener = () => {
+    setdeleteMenu(!deleteMenu);
+  };
+
   const toggleDPMenu = () => {
     setdpMenu(!dpMenu);
   };
@@ -61,6 +75,11 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
   };
   const addImageHandler = (file) => {
     setgroupDP({ file: file });
+  };
+  const DeleteGroup = () => {
+    // delete action
+    delete_group(room._id);
+    history.push('/');
   };
   const { title, desc } = room;
   return (
@@ -177,6 +196,28 @@ function RoomSetting({ room, isAuth, history, add_member, group_image, _v }) {
               </form>
             </DialogActions>
           </Dialog>
+
+          {/* delete confirm menu */}
+          <Dialog
+            open={deleteMenu}
+            onClose={DeletMenuOpener}
+            aria-labelledby='responsive-dialog-title'
+          >
+            <DialogContent>
+              <DialogContentText>
+                <strong>Are you sure you want to delete this group ?</strong>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions className='delete__option '>
+              <Button color='secondary' onClick={DeleteGroup}>
+                Confirm Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          {room.creator === user._id && (
+            <Button onClick={DeletMenuOpener}>Delete Group</Button>
+          )}
         </div>
         <div className='room__members '>
           <div className='room__membersHeader'>
@@ -199,8 +240,9 @@ const mapper = (state) => ({
   room: state.chats.room,
   isAuth: state.user.isAuth,
   _v: state.chats._v,
+  user: state.user.user,
 });
 
-export default connect(mapper, { add_member, group_image })(
+export default connect(mapper, { add_member, group_image, delete_group })(
   withRouter(RoomSetting)
 );
