@@ -15,7 +15,6 @@ app.use('/user/', require('./routes/user'));
 app.use('/room/', require('./routes/room'));
 app.use('/uploads/users/', express.static('./uploads/users'));
 app.use('/uploads/rooms/', express.static('./uploads/rooms'));
-app.listen(PORT, () => console.log('working'));
 
 if (process.env.NODE_ENV === 'production') {
   // set static folder
