@@ -11,7 +11,6 @@ import {
 import { Picker } from 'emoji-mart';
 import { connect } from 'react-redux';
 import { SearchOutlined, MoreVert, InsertEmoticon } from '@material-ui/icons';
-import Moment from 'react-moment';
 import MessageItem from './MessageItem';
 import { sendMessage } from '../../actions/room';
 import { Redirect, withRouter } from 'react-router-dom';
