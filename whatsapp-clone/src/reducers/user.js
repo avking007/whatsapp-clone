@@ -8,6 +8,8 @@ import {
   ROOM_CREATE_FAIL,
   IMAGE_UPLOAD_FAIL,
   IMAGE_UPLOADED,
+  GROUP_DELETED,
+  GROUP_DELETED_FAIL,
 } from '../actions/types';
 
 const initState = {
@@ -48,6 +50,7 @@ export default function user(state = initState, action) {
         image: '',
         error: [],
       };
+    case GROUP_DELETED:
     case ROOM_CREATED:
       return { ...state, user: payload };
 
@@ -60,6 +63,8 @@ export default function user(state = initState, action) {
       return { ...state, error: payload };
     case IMAGE_UPLOAD_FAIL:
       return state;
+
+    case GROUP_DELETED_FAIL:
     default:
       return state;
   }
