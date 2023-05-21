@@ -1,5 +1,4 @@
 const mongo = require('mongoose');
-const config = require('./default');
 const Pusher = require('pusher');
 
 const pusher = new Pusher({
@@ -12,7 +11,7 @@ const pusher = new Pusher({
 
 const connect = async () => {
   try {
-    mongo.connect(config.mongoURI, {
+    mongo.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -26,7 +25,6 @@ const connect = async () => {
       const changestream = messages.watch();
 
       changestream.on('change', (change) => {
-        // console.log(change);
         if (change.operationType == 'update') {
           const msg_model = change.documentKey;
           const changed = change.updateDescription.updatedFields;

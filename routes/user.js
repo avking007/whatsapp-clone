@@ -4,7 +4,6 @@ const router = express.Router();
 const hasher = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const config = require('../config/default');
 const auth = require('../middleware/auth');
 const { OAuth2Client } = require('google-auth-library');
 const multer = require('multer');
@@ -80,7 +79,7 @@ router.post('/googlelogin', async (req, res) => {
         };
         jwt.sign(
           payload,
-          config.jwtKey,
+          process.env.JWT_KEY,
           {
             expiresIn: '10h',
           },
@@ -107,7 +106,7 @@ router.post('/googlelogin', async (req, res) => {
 
         jwt.sign(
           payload,
-          config.jwtKey,
+          process.env.JWT_KEY,
           {
             expiresIn: '10h',
           },
