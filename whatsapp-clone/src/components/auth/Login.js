@@ -13,7 +13,8 @@ function Login({ google_succ, google_fail, isAuth }) {
     google_succ(tokenId, img);
   };
   const responseErrorGoogle = (error) => {
-    alert('Oops!!..Something went wrong!');
+    console.log(error);
+    alert('Oops!!..Something went wrong!', error);
     google_fail();
   };
   if (isAuth) {
