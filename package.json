@@ -8,7 +8,7 @@
     "server": "nodemon server",
     "client": "npm start --prefix whatsapp-clone",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "render-build":"npm install && npm install --prefix whatsapp-clone && npm run build --prefix client",
+    "render-build":"npm install && npm install --prefix whatsapp-clone && npm run build --prefix whatsapp-clone",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix whatsapp-clone && npm run build --prefix whatsapp-clone"
   },
   "author": "Anish",
